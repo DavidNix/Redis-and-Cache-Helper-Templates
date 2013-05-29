@@ -9,6 +9,7 @@ A service object that functions as a main point of interacting with Redis.
 
 ### Setup
 1. Add this to your gemfile and run bundle install:
+
     gem 'json'
     gem 'hiredis'
     gem 'redis', '~> 3.0.1', :require => ["redis/connection/hiredis", "redis"]
@@ -22,11 +23,13 @@ To test on local environments, I suggest using homebrew to install redis locally
 
 ### Usage
 Use the block syntax:
+
     RedisHelper.with_connection do |connection|
         connection.get("some_key")
     end
 
 Or use the simpler syntax:
+
     RedisHelper.get("some_key")
 
 ## Cache Helper
@@ -51,13 +54,15 @@ Before saving, use `self.prevent_caching = true` for a 1-time prevention of cach
 Override `_we_cache_this` in the model's implementation to control extactly what you want cached.
 
 If you have an instance of the model object already:
+
     user.info_hash_via_cache # => hash of the json data stored in redis
     user.info_hash_via_cache[:id] # => "3"
     user.info_hash_via_cache['id'] # => "3", strings work too!
 
 If you have the class and id:
-	json = CacheHelper.json_hash(User, 3)
-	json[:id] # => "3"
+	
+    json = CacheHelper.json_hash(User, 3)
+    json[:id] # => "3"
 
 ## TO DOs
 * Better namespacing of redis cache keys.
