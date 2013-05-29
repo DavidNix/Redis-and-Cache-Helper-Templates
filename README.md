@@ -44,6 +44,7 @@ A concern for caching ActiveRecord obect json to Redis.
 1.  Complete Redis Helper setup described above.
 2.  I suggest adding cache_helper.rb to app/concerns.  If not, you need to require it in application.rb, on a class by class basis, or in any folder that gets autoloaded.
 3.  Include the module like so:
+
     class Model < ActiveRecord::Base
     	include CacheHelper
 4.  You're good to go!
