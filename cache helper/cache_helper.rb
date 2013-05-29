@@ -43,13 +43,13 @@ module CacheHelper
     RedisHelper.get(self.redis_cache_key)
   end
 
-  def info_hash_via_cache(current_user=nil)
-    CacheHelper.json_hash(self.class, self.id, current_user)
+  def info_hash_via_cache
+    CacheHelper.json_hash(self.class, self.id)
   end
 
   # Pull json out of redis w/o needing instance of the object
   # Fall back to db if can't find cached data
-  def self.json_hash(klass, uid, current_user=nil)
+  def self.json_hash(klass, uid)
     return {} if klass.nil? || uid.nil?
     key = cache_key_for(klass, uid)
     json_string = RedisHelper.get(key)
@@ -57,19 +57,9 @@ module CacheHelper
     if json_string.present?
       final_hash = JSON.parse(json_string)
     elsif klass.ancestors.include?(ActiveRecord::Base)
-      final_hash = klass.find(uid).as_json
+      final_hash = klass.find(uid)._we_cache_this
     end
     indifferent_hash(final_hash)
-  end
-
-  def hash_via_db(user)
-    if self.is_a?(User)
-      self.condensed_information(user, false)
-    elsif self.is_a?(TlThread)
-      self.hash_without_seams(user)
-    else
-      self.as_json
-    end
   end
 
   private
