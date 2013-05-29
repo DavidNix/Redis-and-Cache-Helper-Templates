@@ -1,4 +1,4 @@
-# Redis and Cache Templates for Rails
+# Redis and Cache Helper Templates for Rails
 
 ## Redis Helper
 A service object that functions as a main point of interacting with Redis.
@@ -9,7 +9,7 @@ A service object that functions as a main point of interacting with Redis.
 
 ### Setup
 1. Add this to your gemfile and run bundle install:
-
+    gem 'json'
     gem 'hiredis'
     gem 'redis', '~> 3.0.1', :require => ["redis/connection/hiredis", "redis"]
     gem 'connection_pool', '~> 1.0.0'
@@ -58,6 +58,9 @@ If you have an instance of the model object already:
 If you have the class and id:
 	json = CacheHelper.json_hash(User, 3)
 	json[:id] # => "3"
+
+## TO DOs
+* Better namespacing of redis cache keys.
 
 
 
